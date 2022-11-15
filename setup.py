@@ -1,7 +1,7 @@
 import os
 import io
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 # Package meta-data.
 NAME = 'psgrade'
@@ -43,9 +43,11 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    packages=find_packages(exclude=('tests',)),
+    packages = ["psgrade"],
+    entry_points = {
+        "console_scripts": ['psgrade = psgrade.psgrade:main']
+        },
     install_requires=REQUIRED,
-    include_package_data=True,
     license='MIT',
 
 )
