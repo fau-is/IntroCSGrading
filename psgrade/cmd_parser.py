@@ -9,7 +9,7 @@ def parse_args():
     :return: the args that were parsed from the command line
     """
     # This file contains the commandline tools for the current tool
-    parser = argparse.ArgumentParser(prog='psgrade.py')
+    parser = argparse.ArgumentParser(prog='psgrade')
     parser.add_argument('--inputcsv', nargs='*', help='The input csv', required=True)
     parser.add_argument('--gradetable', help='The grade table to ba amended', required=True)
     parser.add_argument('--plag', default=False, action=argparse.BooleanOptionalAction)
