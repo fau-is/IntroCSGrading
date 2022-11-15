@@ -51,7 +51,7 @@ Additional parameters refer to results creation
    * Otherwise, you can fully ignore the command line argument.
    * If a problem set contains a choice, tasks which are not part of a choice still need to be listed in choices.
    * _Format_: taskA-taskB taskC-taskD taskE ...
-   *. Example (Pset1 considering hello): --tasks hello less more cash credit --choices less-more cash-credit hello
+   * Example (Pset1 considering hello): --tasks hello less more cash credit --choices less-more cash-credit hello
 4. --sentimental
    * Does a problem set contain a sentimental task. If there is set it, otherwise ignore it
 
