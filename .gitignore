@@ -1,5 +1,7 @@
 #
 psgrade/Resources/
+psgrade/submissions/
+psgrade/plagiarism_results/
 
 
 # Byte-compiled / optimized / DLL files

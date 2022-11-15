@@ -95,7 +95,7 @@ class Controller(object):
                         continue
                     elif row["Git_username"] in passing_students:
                         row[self.__psetName] = 1
-                    elif plagiarism is not None and row["Git_username"] in plagiarism:
+                    elif len(plagiarism) > 0 and row["Git_username"] in plagiarism:
                         row[self.__psetName] = "Similarity_" + str(results[row["Git_username"]]["PlagConfidence"])
                     else:
                         row[self.__psetName] = 0
@@ -122,10 +122,10 @@ def main():
             for url in controller.DistributionURL:
                 downloader.distro_downloader(url)
 
-            plagiarism_checker = Plagiarism()
-            results = plagiarism_checker.run_plagiarism_check(controller.Slugs, controller.Sentimental, controller.Archive, results)
+        plagiarism_checker = Plagiarism()
+        results = plagiarism_checker.run_plagiarism_check(controller.Slugs, controller.Sentimental, controller.Archive, results)
 
-            results_generator.update_student_results_plagiarism(results)
+        results_generator.update_student_results_plagiarism(results)
     else:
         results_generator.update_results_no_plagiarism()
 

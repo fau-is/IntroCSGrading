@@ -7,7 +7,7 @@ class ResultsGenerator:
         self.__studentResultsExtracted = dict()
         self.__passingStudents = []
         self.__studentResultsFinal = dict()
-        self.__plagiarisingStudents = None
+        self.__plagiarisingStudents = []
 
     @property
     def PlagiarisingStudents(self):
@@ -75,6 +75,7 @@ class ResultsGenerator:
 
     def __cumulate_tasks_into_full_results(self, tasks, choices):
         for student in self.__studentResultsExtracted:
+            choice_fulfilled = False
             if "tasknames" in self.__studentResultsExtracted[student]:
                 if set(self.__studentResultsExtracted[student]["tasknames"]) >= set(tasks):
                     self.__passingStudents.append(student)
@@ -103,7 +104,6 @@ class ResultsGenerator:
             if "IsPlag" in self.__studentResultsFinal[student] and self.__studentResultsFinal[student]["IsPlag"]:
                 if student in self.__passingStudents:
                     self.__passingStudents.remove(student)
-                self.__plagiarisingStudents = [student] if self.__plagiarisingStudents is None else None
                 self.__plagiarisingStudents.append(student)
 
     def update_results_no_plagiarism(self):

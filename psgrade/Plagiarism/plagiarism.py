@@ -19,7 +19,7 @@ class Plagiarism:
     def PlagiarisingStudents(self):
         return self.__plagiarisingStudents
 
-    def __run_compare50(self, slug, sentimental, archive):
+    def __run_compare50(self, slug, sentimental : bool = False, archive : bool = False) -> None:
         flags = ["compare50", f"submissions/{slug.replace('/', '_')}/*"]
         # distribution flag if distribution exists
         if os.path.exists(os.path.join(os.getcwd(), f"submissions/distribution/{slug.split('/')[-1]}")):
@@ -30,10 +30,10 @@ class Plagiarism:
         flags.append("-o")
         s = ''
         if sentimental:
-            if not os.path.exists(os.path.join(os.getcwd(), "results/sentimental")):
-                os.makedirs(os.path.join(os.getcwd(), "results/sentimental"))
+            if not os.path.exists(os.path.join(os.getcwd(), "plagiarism_results/sentimental")):
+                os.makedirs(os.path.join(os.getcwd(), "plagiarism_results/sentimental"))
             s = "sentimental/"
-        path_to_results = f"results/{s}{slug.split('/')[-1]}"
+        path_to_results = f"plagiarism_results/{s}{slug.split('/')[-1]}"
         flags.append(path_to_results)
 
         # Git Solutions
@@ -47,17 +47,18 @@ class Plagiarism:
 
         # Get Absolute path of results
         abs_result_path = os.path.join(os.getcwd(), path_to_results)
-        if not os.path.exists(os.path.join(os.getcwd(), "results")):
-            os.makedirs(os.path.join(os.getcwd(), "results"))
+        if not os.path.exists(os.path.join(os.getcwd(), "plagiarism_results")):
+            os.makedirs(os.path.join(os.getcwd(), "plagiarism_results"))
         if os.path.exists(abs_result_path):
             shutil.rmtree(os.path.join(abs_result_path))
         subprocess.run(flags)
         self.__resultPaths.append(abs_result_path)
 
-    def __plagiarism_check(self, slugs, sentimental, archive):
+
+    def __plagiarism_check(self, slugs : list, sentimental: bool, archive: bool):
         threads = []
         for slug in slugs:
-            t = Thread(target=Plagiarism.__run_compare50, args=(slug, sentimental, archive))
+            t = Thread(target=Plagiarism.__run_compare50, args=(self, slug, sentimental, archive,))
             threads.append(t)
         for thread in threads:
             thread.start()
