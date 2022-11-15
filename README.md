@@ -68,7 +68,7 @@ Lastly there are some parameters regarding plagiarism checks.
 ### Example
 To run the program for Pset1. 
 ```bash
-psgrade --inputcsv cs50_problems_2022_x_mario_less.csv cs50_problems_2022_x_mario_more.csv cs50_problems_2022_x_cash cs50_problems_2022_x_credit --gradetable gradetable.csv --psetId 1 --tasks less more cash credit --choices less-more cash-credit
+psgrade --inputcsv cs50_problems_2022_x_mario_less.csv cs50_problems_2022_x_mario_more.csv cs50_problems_2022_x_cash.csv cs50_problems_2022_x_credit.csv --gradetable gradetable.csv --psetId 1 --tasks less more cash credit --choices less-more cash-credit
 ```
 If the program is not installed in your venv...
 ```bash
