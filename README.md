@@ -51,7 +51,7 @@ Additional parameters refer to results creation
    * Otherwise, you can fully ignore the command line argument.
    * If a problem set contains a choice, tasks which are not part of a choice still need to be listed in choices.
    * _Format_: taskA-taskB taskC-taskD taskE ...
-   *. Example (Pset1 considering hello): --tasks hello less more cash credit --choices less-more cash-credit hello
+   * Example (Pset1 considering hello): --tasks hello less more cash credit --choices less-more cash-credit hello
 4. --sentimental
    * Does a problem set contain a sentimental task. If there is set it, otherwise ignore it
 
@@ -68,7 +68,7 @@ Lastly there are some parameters regarding plagiarism checks.
 ### Example
 To run the program for Pset1. 
 ```bash
-psgrade --inputcsv cs50_problems_2022_x_mario_less.csv cs50_problems_2022_x_mario_more.csv cs50_problems_2022_x_cash cs50_problems_2022_x_credit --gradetable gradetable.csv --psetId 1
+psgrade --inputcsv cs50_problems_2022_x_mario_less.csv cs50_problems_2022_x_mario_more.csv cs50_problems_2022_x_cash.csv cs50_problems_2022_x_credit.csv --gradetable gradetable.csv --psetId 1 --tasks less more cash credit --choices less-more cash-credit
 ```
 If the program is not installed in your venv...
 ```bash
