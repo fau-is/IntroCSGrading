@@ -3,18 +3,22 @@ from csv import DictReader
 
 class ResultsGenerator:
     def __init__(self):
-        self.__submit50CsvDicts = []
-        self.__studentResultsExtracted = dict()
-        self.__passingStudents = []
-        self.__studentResultsFinal = dict()
-        self.__plagiarisingStudents = []
+        self.__submit50CsvDicts: list = []
+        self.__studentResultsExtracted: dict = dict()
+        self.__passingStudents: list = []
+        self.__studentResultsFinal: dict = dict()
+        self.__plagiarisingStudents: list = []
 
     @property
-    def PlagiarisingStudents(self):
+    def PlagiarisingStudents(self) -> list:
         return self.__plagiarisingStudents
 
     @property
     def PassingStudents(self):
+        """
+
+        :return: A list of all the students who pass the current problem set.
+        """
         return self.__passingStudents
 
     @property
@@ -30,6 +34,7 @@ class ResultsGenerator:
         return self.__studentResultsFinal
 
     def load_reformat_CS50_dicts(self, cs50CsvList) -> None:
+        #TODO check if path exists
         for file in cs50CsvList:
             self.__read_CS50csv_into_dict(file)
 
