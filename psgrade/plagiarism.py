@@ -8,7 +8,7 @@ import shutil
 from threading import Thread
 from bs4 import BeautifulSoup
 
-from .utils import thread_runner
+from utils import thread_runner
 
 class Plagiarism:
     """

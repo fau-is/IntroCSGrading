@@ -10,7 +10,7 @@ from threading import Thread
 
 import requests
 
-from .utils import thread_runner
+from utils import thread_runner
 
 
 class Downloader:
