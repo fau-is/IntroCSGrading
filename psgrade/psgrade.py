@@ -1,11 +1,11 @@
 """
 Main function for running the check
 """
-from .controller import Controller
-from .downloader import Downloader
-from .plagiarism import Plagiarism
-from .results import ResultsGenerator
-from .cmd_parser import parse_args
+from controller import Controller
+from downloader import Downloader
+from plagiarism import Plagiarism
+from results import ResultsGenerator
+from cmd_parser import parse_args
 
 
 def main():
