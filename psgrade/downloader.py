@@ -10,6 +10,8 @@ from threading import Thread
 
 import requests
 
+from .utils import thread_runner
+
 
 class Downloader:
     """
@@ -35,10 +37,7 @@ class Downloader:
             for student in results:
                 thread = Thread(target=self.__download_submission, args=(results, slug, student))
                 threads.append(thread)
-            for thread in threads:
-                thread.start()
-            for thread in threads:
-                thread.join()
+            thread_runner(threads)
 
     def __download_submission(self, result_dict, slug, student):
         """
