@@ -16,7 +16,8 @@ def parse_args():
     parser.add_argument('--distribution_code', nargs='*')
     parser.add_argument('--psetId', type=str, required=True)
     parser.add_argument('--tasks', nargs='*', type=str.lower)
-    parser.add_argument('--choices', nargs='*', type=str.lower, help="e.g.: task1-task2 task3-task4-task5")
+    parser.add_argument('--choices', nargs='*', type=str.lower,
+                        help="e.g.: task1-task2 task3-task4-task5")
     parser.add_argument("--archive",  default=False, action=argparse.BooleanOptionalAction)
     parser.add_argument("--sentimental",  default=False, action=argparse.BooleanOptionalAction)
 
