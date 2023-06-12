@@ -8,6 +8,7 @@ import shutil
 from threading import Thread
 from bs4 import BeautifulSoup
 
+from .utils import thread_runner
 
 class Plagiarism:
     """
@@ -93,10 +94,8 @@ class Plagiarism:
             thread = Thread(target=Plagiarism.__run_compare50,
                             args=(self, slug, sentimental, archive,))
             threads.append(thread)
-        for thread in threads:
-            thread.start()
-        for thread in threads:
-            thread.join()
+        thread_runner(threads)
+
 
     def __get_plagiarism_results(self, result_dict:dict) -> dict:
         """

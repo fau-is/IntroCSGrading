@@ -1,113 +1,134 @@
+"""
+Overall controller of other modules in the grading package
+"""
 from csv import DictReader, DictWriter
 
-class Controller(object):
+
+# pylint: disable=too-many-instance-attributes
+class Controller:
+    """
+    Controller class which coordinates the execution of all
+    modules.
+    """
 
     def __init__(self):
-        self.__slugs: list = []
-        self.__resultPaths: list = []
-        self.__plagiarismCheck: bool = False
+        self.__plagiarism_check: bool = False
         self.__sentimental: bool = False
         self.__archive: bool = False
-        self.__inputFilesSubmit50: list = []
-        self.__distributionCodeURL: list = []
-        self.__gradeTable: str = ""
-        self.__psetName = ""
+
+        self.__slugs: list = []
+        self.__result_paths: list = []
+        self.__input_files_submit50: list = []
+        self.__distribution_code_url: list = []
+        self.__grade_table: str = ""
+        self.__problem_set_name = ""
         self.__tasks = []
         self.__choices = []
 
     @property
-    def PlagiarismCheck(self) -> bool:
+    def plagiarism_check(self) -> bool:
         """Returns the state of the plagiarism check attribute."""
-        return self.__plagiarismCheck
+        return self.__plagiarism_check
 
     @property
-    def Choices(self) -> list:
-        """Returns the list of choices attribute."""
+    def choices(self) -> list:
+        """Returns the list of choice attribute."""
         return self.__choices
 
     @property
-    def Tasks(self) -> list:
-        """Returns the list of tasks attribute."""
+    def tasks(self) -> list:
+        """Returns the list of task attribute."""
         return self.__tasks
 
     @property
-    def ProblemSetName(self) -> str:
+    def problem_set_name(self) -> str:
         """Returns the problem set name attribute."""
-        return self.__psetName
+        return self.__problem_set_name
 
     @property
-    def DistributionURL(self):
+    def distribution_url(self):
         """Returns the distribution code URL attribute."""
-        return self.__distributionCodeURL
+        return self.__distribution_code_url
 
     @property
-    def GradeTable(self) -> str or None:
+    def grade_table(self) -> str or None:
         """Returns the grade table attribute."""
-        return self.__gradeTable
+        return self.__grade_table
 
     @property
-    def InputCS50Csv(self) -> [] or None:
+    def input_cs50_csv(self) -> [] or None:
         """Returns the input files for CS50 in CSV format attribute."""
-        return self.__inputFilesSubmit50
+        return self.__input_files_submit50
 
     @property
-    def Slugs(self) -> [] or None:
+    def slugs(self) -> [] or None:
         """Returns the slugs attribute."""
         return self.__slugs
 
     @property
-    def ResultsPaths(self) -> [] or None:
-        """Returns the results paths attribute."""
-        return self.__resultPaths
+    def results_paths(self) -> [] or None:
+        """Returns the result paths attribute."""
+        return self.__result_paths
 
     @property
-    def Sentimental(self) -> bool:
+    def sentimental(self) -> bool:
         """Returns the state of the sentimental attribute."""
         return self.__sentimental
 
     @property
-    def Archive(self) -> bool:
+    def archive(self) -> bool:
         """Returns the state of the archive attribute."""
         return self.__archive
 
-    def set_commandline_args(self, args):
-        """Sets the attributes according to the command line arguments provided."""
-        self.__inputFilesSubmit50 = args.inputcsv
-        self.__gradeTable = args.gradetable
-        self.__distributionCodeURL = args.distribution_code
-        self.__psetName = f"Pset{args.psetId}"
+    def set_commandline_args(self, args) -> None:
+        """
+        Sets the attributes according to the command line arguments provided.
+        :param args: args parsed by cmd parser
+        :return: None
+        """
+        self.__input_files_submit50 = args.input_csv
+        self.__grade_table = args.gradetable
+        self.__distribution_code_url = args.distribution_code
+        self.__problem_set_name = f"Pset{args.psetId}"
         self.__tasks = args.tasks
         self.__archive = args.archive
         self.__sentimental = args.sentimental
         self.__choices = []
-        self.__plagiarismCheck = args.plag
+        self.__plagiarism_check = args.plag
         if args.choices:
             self.__choices = [choice.split("-") for choice in args.choices]
 
-    def write_grade_table(self, results, passing_students, plagiarism=None):
+    def write_grade_table(self, results: dict, passing_students: list, plagiarism=None) -> None:
         """
-        Writes the grade table based on the results, the list of passing students and the list of students
-        who have plagiarized. Passing students receive the value 1, failing students the value 0 and
-        plagiarising students the value of the similiarty score.
+        This function writes the grade table.
+        Passing students receive 1, failing students value 0 and
+        students accused of plagiarism their similarity score.
+        :param results: The results dict
+        :param passing_students: The list of passing students
+        :param plagiarism: The list of students who have plagiarized
+        :return:
         """
-        with open(self.__gradeTable) as fi:
-            with open(''.join(self.__gradeTable.split('.')[:-1]) + "_" + self.__psetName + ".csv", 'w') as fo:
-                reader = DictReader(fi)
+        with open(self.__grade_table, encoding="UTF-8") as input_grade_table:
+            with open(''.join(self.__grade_table.split('.')[:-1]) + "_"
+                      + self.__problem_set_name + ".csv", 'w', encoding="UTF-8") as out_file:
+                reader = DictReader(input_grade_table)
                 fieldnames = reader.fieldnames
-                if self.__psetName not in fieldnames:
-                    fieldnames = fieldnames + [self.__psetName]
-                writer = DictWriter(fo, fieldnames)
+                if self.__problem_set_name not in fieldnames:
+                    fieldnames = fieldnames + [self.__problem_set_name]
+                writer = DictWriter(out_file, fieldnames)
                 writer.writeheader()
 
                 for row in reader:
-                    if self.__psetName in row and row[self.__psetName] not in {'0', '1'}:
+                    if self.__problem_set_name in row and \
+                            row[self.__problem_set_name] not in {'0', '1'}:
                         writer.writerow(row)
                         continue
-                    elif row["Git_username"] in passing_students:
-                        row[self.__psetName] = 1
+                    if row["Git_username"] in passing_students:
+                        row[self.__problem_set_name] = 1
                     elif len(plagiarism) > 0 and row["Git_username"] in plagiarism:
-                        row[self.__psetName] = "Similarity_" + str(results[row["Git_username"]]["PlagConfidence"])
+                        row[self.__problem_set_name] = "Similarity_" + str(
+                            results[row["Git_username"]]["PlagConfidence"])
                     else:
-                        row[self.__psetName] = 0
+                        row[self.__problem_set_name] = 0
 
                     writer.writerow(row)
