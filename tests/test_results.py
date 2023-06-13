@@ -1,7 +1,7 @@
 """
 Tests for the reslts.py module
 """
-
+import os
 from unittest import TestCase
 from psgrade.results import ResultsGenerator
 
@@ -18,7 +18,9 @@ class TestResultGenerator(TestCase):
         :return: None
         """
         self.results_generator = ResultsGenerator()
-        self.cs50_csv_lists = ["Resources/test1.csv", "Resources/test2.csv"]
+        self.cs50_csv_lists = [
+            os.path.dirname(__file__) + "/Resources/test1.csv",
+            os.path.dirname(__file__) + "/Resources/test2.csv"]
         self.csv_columns = ['slug', 'github_id', 'github_username',
                             'name', 'github_url', 'timestamp', 'checks_passed',
                             'checks_run', 'style50_score', 'archive']

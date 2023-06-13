@@ -4,6 +4,7 @@ Tests for psgrade/controller.py
 import json
 import unittest
 import csv
+import os
 from unittest.mock import MagicMock
 
 from psgrade.controller import Controller
@@ -16,15 +17,18 @@ class TestController(unittest.TestCase):
         """
         Setup function to prepare necessary objects for the tests.
         """
-        self.grade_table_link = 'Resources/grade_table_Pset1.csv'
-        self.student_results_link = 'Resources/student_results_final.json'
+        self.grade_table_link = os.path.dirname(__file__) + \
+                                '/Resources/grade_table_Pset1.csv'
+        self.student_results_link = os.path.dirname(__file__) + \
+                                    '/Resources/student_results_final.json'
         self.controller = Controller()
         self.args = MagicMock()
-        self.args.input_csv = ["Resources/cs50_problems_2022_x_mario_less.csv",
-                              "Resources/cs50_problems_2022_x_mario_more.csv",
-                              "Resources/cs50_problems_2022_x_cash.csv",
-                              "Resources/cs50_problems_2022_x_credit.csv"]
-        self.args.gradetable = "Resources/grade_table.csv"
+        self.args.input_csv = [
+            os.path.dirname(__file__) + "/Resources/cs50_problems_2022_x_mario_less.csv",
+            os.path.dirname(__file__) + "/Resources/cs50_problems_2022_x_mario_more.csv",
+            os.path.dirname(__file__) + "/Resources/cs50_problems_2022_x_cash.csv",
+            os.path.dirname(__file__) + "/Resources/cs50_problems_2022_x_credit.csv"]
+        self.args.gradetable = os.path.dirname(__file__) + "/Resources/grade_table.csv"
         self.args.distribution_code = None
         self.args.psetId = '1'
         self.args.tasks = ["less", "more", "cash", "credit"]
@@ -112,7 +116,8 @@ class TestController(unittest.TestCase):
             reader = csv.reader(file)
             grade_table_values = [row[0] for row in reader if row]
 
-        with open('Resources/grade_table_Pset1.csv', "r", encoding="UTF-8") as file:
+        with open(os.path.dirname(__file__) + '/Resources/grade_table_Pset1.csv',
+                  "r", encoding="UTF-8") as file:
             reader = csv.reader(file)
             grade_table_pset1_values = [row[0] for row in reader if row]
 
