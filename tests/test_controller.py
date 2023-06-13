@@ -143,8 +143,8 @@ class TestController(unittest.TestCase):
         with open(self.grade_table_link, 'r', encoding="UTF-8") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                if row["Git_username"] not in self.passing_students and row[
-                    "Git_username"] not in self.plagiarising_students:
+                if row["Git_username"] not in self.passing_students and \
+                        row["Git_username"] not in self.plagiarising_students:
                     self.assertEqual(row[self.controller.problem_set_name], "0")
 
     def test_write_grade_table_values_plagiarised(self):
