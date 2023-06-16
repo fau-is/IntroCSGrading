@@ -24,15 +24,14 @@ class TestController(unittest.TestCase):
         self.controller = Controller()
         self.args = MagicMock()
         self.args.input_csv = [
-            os.path.dirname(__file__) + "/Resources/cs50_problems_2022_x_mario_less.csv",
-            os.path.dirname(__file__) + "/Resources/cs50_problems_2022_x_mario_more.csv",
-            os.path.dirname(__file__) + "/Resources/cs50_problems_2022_x_cash.csv",
-            os.path.dirname(__file__) + "/Resources/cs50_problems_2022_x_credit.csv"]
+            os.path.dirname(__file__) + "/Resources/test1.csv",
+            os.path.dirname(__file__) + "/Resources/test2.csv",
+            os.path.dirname(__file__) + "/Resources/test3.csv"]
         self.args.gradetable = os.path.dirname(__file__) + "/Resources/grade_table.csv"
         self.args.distribution_code = None
         self.args.psetId = '1'
-        self.args.tasks = ["less", "more", "cash", "credit"]
-        self.args.choices = ["less-more", "cash-credit"]
+        self.args.tasks = ["test1", "test2", "test3"]
+        self.args.choices = ["test1-test2"]
         self.args.archive = True
         self.args.sentimental = True
         self.args.plag = True
@@ -104,7 +103,7 @@ class TestController(unittest.TestCase):
         self.assertEqual(self.controller.tasks, self.args.tasks)
         self.assertTrue(self.controller.archive)
         self.assertTrue(self.controller.sentimental)
-        self.assertEqual(self.controller.choices, [["less", "more"], ["cash", "credit"]])
+        self.assertEqual(self.controller.choices, [["test1", "test2"]])
         self.assertTrue(self.controller.plagiarism_check)
 
     def test_compare_number_of_git_usernames(self):
