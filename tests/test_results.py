@@ -20,22 +20,24 @@ class TestResultGenerator(TestCase):
         self.results_generator = ResultsGenerator()
         self.cs50_csv_lists = [
             os.path.dirname(__file__) + "/Resources/test1.csv",
-            os.path.dirname(__file__) + "/Resources/test2.csv"]
+            os.path.dirname(__file__) + "/Resources/test2.csv",
+            os.path.dirname(__file__) + "/Resources/test3.csv",
+        ]
         self.csv_columns = ['slug', 'github_id', 'github_username',
                             'name', 'github_url', 'timestamp', 'checks_passed',
                             'checks_run', 'style50_score', 'archive']
         self.results_dict_after_plagiarism = \
             {'user1':
                  {'tasks': 2,
-                  'fau-is/introcs/CBubbleSort':
+                  'fau-is/introcs/task1':
                       'https://introcs.is.rw.fau.de/landing_page/',
                   'tasknames':
-                      ['cbubblesort', 'copycat'],
-                  'fau-is/introcs/Pset3/Copycat':
+                      ['task1', 'task2'],
+                  'fau-is/introcs/task2':
                       'https://introcs.is.rw.fau.de/landing_page/'},
              'user2': {'tasks': 1,
-                       'fau-is/introcs/CBubbleSort': 'https://introcs.is.rw.fau.de/landing_page/',
-                       'tasknames': ['cbubblesort'],
+                       'fau-is/introcs/task1': 'https://introcs.is.rw.fau.de/landing_page/',
+                       'tasknames': ['task1'],
                        'IsPlag': True}}
 
     def test_constructor(self):
@@ -57,13 +59,15 @@ class TestResultGenerator(TestCase):
         self.results_generator.load_reformat_cs50_dicts(self.cs50_csv_lists)
 
         # check number of loaded csv files
-        self.assertEqual(len(self.results_generator.cs50_files_as_dict), 2)
+        self.assertEqual(len(self.results_generator.cs50_files_as_dict), 3)
 
         # check entries in each loaded csv
         self.assertEqual(list(self.results_generator.cs50_files_as_dict[0].keys()),
                          ['user1', 'user2', 'user3', 'user4'])
         self.assertEqual(list(self.results_generator.cs50_files_as_dict[1].keys()),
-                         ['user1'])
+                         ['user1'],)
+        self.assertEqual(list(self.results_generator.cs50_files_as_dict[2].keys()),
+                         ['user3'], )
 
         # check column names and values that are always the same
         for csv_dict in self.results_generator.cs50_files_as_dict:
@@ -80,7 +84,7 @@ class TestResultGenerator(TestCase):
         for user in self.results_generator.cs50_files_as_dict[0]:
             self.assertEqual(
                 self.results_generator.cs50_files_as_dict[0][user]['slug'],
-                'fau-is/introcs/CBubbleSort'
+                'fau-is/introcs/task1'
             )
             self.assertEqual(self.results_generator.cs50_files_as_dict[0][user]['checks_run'], '4')
 
@@ -168,7 +172,7 @@ class TestResultGenerator(TestCase):
         # check second csv
         self.assertEqual(
             self.results_generator.cs50_files_as_dict[1]['user1']['slug'],
-            'fau-is/introcs/Pset3/Copycat'
+            'fau-is/introcs/task2'
         )
         self.assertEqual(
             self.results_generator.cs50_files_as_dict[1]['user1']['github_id'],
@@ -195,6 +199,36 @@ class TestResultGenerator(TestCase):
             '1'
         )
 
+        # check third csv
+        self.assertEqual(
+            self.results_generator.cs50_files_as_dict[2]['user3']['slug'],
+            'fau-is/introcs/task3'
+        )
+        self.assertEqual(
+            self.results_generator.cs50_files_as_dict[2]['user3']['github_id'],
+            '3'
+        )
+        self.assertEqual(
+            self.results_generator.cs50_files_as_dict[2]['user3']['github_username'],
+            'user3'
+        )
+        self.assertEqual(
+            self.results_generator.cs50_files_as_dict[2]['user3']['name'],
+            'user3'
+        )
+        self.assertEqual(
+            self.results_generator.cs50_files_as_dict[2]['user3']['checks_passed'],
+            '3'
+        )
+        self.assertEqual(
+            self.results_generator.cs50_files_as_dict[2]['user3']['checks_run'],
+            '3'
+        )
+        self.assertEqual(
+            self.results_generator.cs50_files_as_dict[2]['user3']['style50_score'],
+            '1'
+        )
+
     def make_asserts_for_results(self, results) -> None:
         """
         Method to unify the assertions for update, and import,
@@ -202,24 +236,29 @@ class TestResultGenerator(TestCase):
         :param results: dictionary
         :return: None
         """
-        self.assertEqual(list(results.keys()),['user1', 'user2'])
+        self.assertEqual(list(results.keys()),['user1', 'user2', 'user3'])
         self.assertEqual(list(results['user1'].keys()),
-                         ['tasks', 'fau-is/introcs/CBubbleSort',
-                          'tasknames', 'fau-is/introcs/Pset3/Copycat'])
+                         ['tasks', 'fau-is/introcs/task1',
+                          'tasknames', 'fau-is/introcs/task2'])
         self.assertEqual(list(results['user2'].keys()),
-                         ['tasks', 'fau-is/introcs/CBubbleSort', 'tasknames'])
+                         ['tasks', 'fau-is/introcs/task1', 'tasknames'])
         # check preliminary results dict values
         self.assertEqual(results['user1']['tasks'], 2)
-        self.assertEqual(results['user1']['fau-is/introcs/CBubbleSort'],
+        self.assertEqual(results['user1']['fau-is/introcs/task1'],
             'https://introcs.is.rw.fau.de/landing_page/')
-        self.assertEqual(results['user1']['tasknames'],['cbubblesort', 'copycat'])
-        self.assertEqual(results['user1']['fau-is/introcs/Pset3/Copycat'],
+        self.assertEqual(results['user1']['tasknames'],['task1', 'task2'])
+        self.assertEqual(results['user1']['fau-is/introcs/task2'],
                          'https://introcs.is.rw.fau.de/landing_page/')
         self.assertEqual(results['user2']['tasks'], 1)
-        self.assertEqual(results['user2']['fau-is/introcs/CBubbleSort'],
+        self.assertEqual(results['user2']['fau-is/introcs/task1'],
             'https://introcs.is.rw.fau.de/landing_page/')
         self.assertEqual(
-            results['user2']['tasknames'], ['cbubblesort'])
+            results['user2']['tasknames'], ['task1'])
+        self.assertEqual(results['user3']['tasks'], 1)
+        self.assertEqual(results['user3']['fau-is/introcs/task3'],
+                         'https://introcs.is.rw.fau.de/landing_page/')
+        self.assertEqual(
+            results['user3']['tasknames'], ['task3'])
 
         self.assertEqual(self.results_generator.passing_students, ['user1', 'user2'])
 
@@ -229,8 +268,8 @@ class TestResultGenerator(TestCase):
         :return:
         """
         slugs = []
-        tasks = []
-        choices = []
+        tasks = ['task2']
+        choices = [['task1']]
         self.results_generator.load_reformat_cs50_dicts(self.cs50_csv_lists)
         self.results_generator.get_student_results(slugs, tasks, choices)
 
@@ -245,8 +284,8 @@ class TestResultGenerator(TestCase):
         :return:
         """
         slugs = []
-        tasks = []
-        choices = []
+        tasks = ['task2']
+        choices = [['task1']]
         self.results_generator.load_reformat_cs50_dicts(self.cs50_csv_lists)
         self.results_generator.get_student_results(slugs, tasks, choices)
         self.results_generator.update_results_no_plagiarism()
@@ -259,8 +298,8 @@ class TestResultGenerator(TestCase):
         :return:
         """
         slugs = []
-        tasks = []
-        choices = []
+        tasks = ['task2']
+        choices = [['task1']]
         self.results_generator.load_reformat_cs50_dicts(self.cs50_csv_lists)
         self.results_generator.get_student_results(slugs, tasks, choices)
         self.results_generator.update_student_results_plagiarism(self.results_dict_after_plagiarism)
@@ -270,25 +309,25 @@ class TestResultGenerator(TestCase):
         self.assertEqual(len(list(results.keys())), 2)
         self.assertEqual(list(results.keys()), ['user1', 'user2'])
         self.assertEqual(list(results['user1'].keys()),
-                         ['tasks', 'fau-is/introcs/CBubbleSort',
-                          'tasknames', 'fau-is/introcs/Pset3/Copycat'])
+                         ['tasks', 'fau-is/introcs/task1',
+                          'tasknames', 'fau-is/introcs/task2'])
         self.assertEqual(list(results['user2'].keys()),
-                         ['tasks', 'fau-is/introcs/CBubbleSort',
+                         ['tasks', 'fau-is/introcs/task1',
                           'tasknames', 'IsPlag'])
 
         # check final results dict values
         self.assertEqual(results['user1']['tasks'], 2)
-        self.assertEqual(results['user1']['fau-is/introcs/CBubbleSort'],
+        self.assertEqual(results['user1']['fau-is/introcs/task1'],
                          'https://introcs.is.rw.fau.de/landing_page/')
         self.assertEqual(results['user1']['tasknames'],
-                         ['cbubblesort', 'copycat'])
-        self.assertEqual(results['user1']['fau-is/introcs/Pset3/Copycat'],
+                         ['task1', 'task2'])
+        self.assertEqual(results['user1']['fau-is/introcs/task2'],
                          'https://introcs.is.rw.fau.de/landing_page/')
 
         self.assertEqual(results['user2']['tasks'], 1)
-        self.assertEqual(results['user2']['fau-is/introcs/CBubbleSort'],
+        self.assertEqual(results['user2']['fau-is/introcs/task1'],
                          'https://introcs.is.rw.fau.de/landing_page/')
-        self.assertEqual(results['user2']['tasknames'], ['cbubblesort'])
+        self.assertEqual(results['user2']['tasknames'], ['task1'])
         self.assertEqual(results['user2']['IsPlag'], True)
 
         # check passing and plagiarising students
