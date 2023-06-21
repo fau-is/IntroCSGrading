@@ -22,6 +22,7 @@ class TestResultGenerator(TestCase):
             os.path.dirname(__file__) + "/Resources/test1.csv",
             os.path.dirname(__file__) + "/Resources/test2.csv",
             os.path.dirname(__file__) + "/Resources/test3.csv",
+            os.path.dirname(__file__) + "/Resources/test4.csv"
         ]
         self.csv_columns = ['slug', 'github_id', 'github_username',
                             'name', 'github_url', 'timestamp', 'checks_passed',
