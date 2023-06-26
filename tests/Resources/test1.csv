@@ -1,5 +1,5 @@
 slug,github_id,github_username,name,github_url,timestamp,checks_passed,checks_run,style50_score,archive
-fau-is/introcs/CBubbleSort,1,user1,user1,https://introcs.is.rw.fau.de/landing_page/,"Wed, 15 Feb 2023 12:00:00AM CET",4,4,1,https://introcs.is.rw.fau.de/landing_page/
-fau-is/introcs/CBubbleSort,2,user2,user2,https://introcs.is.rw.fau.de/landing_page/,"Wed, 15 Feb 2023 12:00:00AM CET",4,4,ERROR,https://introcs.is.rw.fau.de/landing_page/
-fau-is/introcs/CBubbleSort,3,user3,user3,https://introcs.is.rw.fau.de/landing_page/,"Wed, 15 Feb 2023 12:00:00AM CET",0,4,1,https://introcs.is.rw.fau.de/landing_page/
-fau-is/introcs/CBubbleSort,4,user4,user4,https://introcs.is.rw.fau.de/landing_page/,"Wed, 15 Feb 2023 12:00:00AM CET",4,4,0,https://introcs.is.rw.fau.de/landing_page/
+fau-is/introcs/task1,1,user1,user1,https://introcs.is.rw.fau.de/landing_page/,"Wed, 15 Feb 2023 12:00:00AM CET",4,4,1,https://introcs.is.rw.fau.de/landing_page/
+fau-is/introcs/task1,2,user2,user2,https://introcs.is.rw.fau.de/landing_page/,"Wed, 15 Feb 2023 12:00:00AM CET",4,4,ERROR,https://introcs.is.rw.fau.de/landing_page/
+fau-is/introcs/task1,3,user3,user3,https://introcs.is.rw.fau.de/landing_page/,"Wed, 15 Feb 2023 12:00:00AM CET",0,4,1,https://introcs.is.rw.fau.de/landing_page/
+fau-is/introcs/task1,4,user4,user4,https://introcs.is.rw.fau.de/landing_page/,"Wed, 15 Feb 2023 12:00:00AM CET",4,4,0,https://introcs.is.rw.fau.de/landing_page/

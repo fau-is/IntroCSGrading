@@ -116,9 +116,6 @@ class ResultsGenerator:
                     if "tasknames" in self.__student_results_extracted[student]:
                         self.__student_results_extracted[student]["tasknames"]\
                             .append(student_dict["slug"].split('/')[-1].lower())
-                    else:
-                        self.__student_results_extracted[student]["tasknames"] = \
-                            [student_dict["slug"].split('/')[-1].lower()]
                 else:
                     self.__student_results_extracted[student] = \
                         {"tasks": 1, student_dict["slug"]: student_dict["github_url"],
@@ -144,11 +141,8 @@ class ResultsGenerator:
                             set(results['tasknames']))) < 1:
                         choice_fulfilled = False
                         break
-            else:
-                choice_fulfilled = True
-
-            if choice_fulfilled:
-                self.__passing_students.append(student_name)
+                if choice_fulfilled:
+                    self.__passing_students.append(student_name)
 
     def update_student_results_plagiarism(self, result_dict_after_plagiarism: {}) -> None:
         """
