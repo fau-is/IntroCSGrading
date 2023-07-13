@@ -33,8 +33,8 @@ class TestResultGenerator(TestCase):
                   'fau-is/introcs/task1':
                       'https://introcs.is.rw.fau.de/landing_page/',
                   'tasknames':
-                      ['task1', 'task2'],
-                  'fau-is/introcs/task2':
+                      ['task1', 'slug2'],
+                  'fau-is/introcs/slug2':
                       'https://introcs.is.rw.fau.de/landing_page/'},
              'user2': {'tasks': 1,
                        'fau-is/introcs/task1': 'https://introcs.is.rw.fau.de/landing_page/',
@@ -173,7 +173,7 @@ class TestResultGenerator(TestCase):
         # check second csv
         self.assertEqual(
             self.results_generator.cs50_files_as_dict[1]['user1']['slug'],
-            'fau-is/introcs/task2'
+            'fau-is/introcs/slug2'
         )
         self.assertEqual(
             self.results_generator.cs50_files_as_dict[1]['user1']['github_id'],
@@ -240,15 +240,15 @@ class TestResultGenerator(TestCase):
         self.assertEqual(list(results.keys()),['user1', 'user2', 'user3'])
         self.assertEqual(list(results['user1'].keys()),
                          ['tasks', 'fau-is/introcs/task1',
-                          'tasknames', 'fau-is/introcs/task2'])
+                          'tasknames', 'fau-is/introcs/slug2'])
         self.assertEqual(list(results['user2'].keys()),
                          ['tasks', 'fau-is/introcs/task1', 'tasknames'])
         # check preliminary results dict values
         self.assertEqual(results['user1']['tasks'], 2)
         self.assertEqual(results['user1']['fau-is/introcs/task1'],
             'https://introcs.is.rw.fau.de/landing_page/')
-        self.assertEqual(results['user1']['tasknames'],['task1', 'task2'])
-        self.assertEqual(results['user1']['fau-is/introcs/task2'],
+        self.assertEqual(results['user1']['tasknames'],['task1', 'slug2'])
+        self.assertEqual(results['user1']['fau-is/introcs/slug2'],
                          'https://introcs.is.rw.fau.de/landing_page/')
         self.assertEqual(results['user2']['tasks'], 1)
         self.assertEqual(results['user2']['fau-is/introcs/task1'],
@@ -269,7 +269,7 @@ class TestResultGenerator(TestCase):
         :return:
         """
         slugs = []
-        tasks = ['task2']
+        tasks = ['slug2']
         choices = [['task1']]
         self.results_generator.load_reformat_cs50_dicts(self.cs50_csv_lists)
         self.results_generator.get_student_results(slugs, tasks, choices)
@@ -285,7 +285,7 @@ class TestResultGenerator(TestCase):
         :return:
         """
         slugs = []
-        tasks = ['task2']
+        tasks = ['slug2']
         choices = [['task1']]
         self.results_generator.load_reformat_cs50_dicts(self.cs50_csv_lists)
         self.results_generator.get_student_results(slugs, tasks, choices)
@@ -299,7 +299,7 @@ class TestResultGenerator(TestCase):
         :return:
         """
         slugs = []
-        tasks = ['task2']
+        tasks = ['slug2']
         choices = [['task1']]
         self.results_generator.load_reformat_cs50_dicts(self.cs50_csv_lists)
         self.results_generator.get_student_results(slugs, tasks, choices)
@@ -311,7 +311,7 @@ class TestResultGenerator(TestCase):
         self.assertEqual(list(results.keys()), ['user1', 'user2'])
         self.assertEqual(list(results['user1'].keys()),
                          ['tasks', 'fau-is/introcs/task1',
-                          'tasknames', 'fau-is/introcs/task2'])
+                          'tasknames', 'fau-is/introcs/slug2'])
         self.assertEqual(list(results['user2'].keys()),
                          ['tasks', 'fau-is/introcs/task1',
                           'tasknames', 'IsPlag'])
@@ -321,8 +321,8 @@ class TestResultGenerator(TestCase):
         self.assertEqual(results['user1']['fau-is/introcs/task1'],
                          'https://introcs.is.rw.fau.de/landing_page/')
         self.assertEqual(results['user1']['tasknames'],
-                         ['task1', 'task2'])
-        self.assertEqual(results['user1']['fau-is/introcs/task2'],
+                         ['task1', 'slug2'])
+        self.assertEqual(results['user1']['fau-is/introcs/slug2'],
                          'https://introcs.is.rw.fau.de/landing_page/')
 
         self.assertEqual(results['user2']['tasks'], 1)

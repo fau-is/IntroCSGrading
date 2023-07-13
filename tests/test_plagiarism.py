@@ -18,17 +18,15 @@ class TestPlagiarism(TestCase):
         :return: None
         """
         self.plagiarism = Plagiarism
-        self.results = {
-            'student1': {'IsPlag': False, 'PlagConfidence': 0},
-            'student2': {'IsPlag': False, 'PlagConfidence': 0},
-            'student3': {'IsPlag': False, 'PlagConfidence': 0},
-            'student4': {'IsPlag': False, 'PlagConfidence': 0}
-        }
         self.ctrl_results = {
             'student1': {'IsPlag': True, 'PlagConfidence': 100},
             'student2': {'IsPlag': True, 'PlagConfidence': 100},
             'student3': {'IsPlag': False, 'PlagConfidence': 0},
             'student4': {'IsPlag': False, 'PlagConfidence': 0}
+        }
+        self.ctrl_results2 = {
+            'student1': {'IsPlag': True, 'PlagConfidence': 100},
+            'student2': {'IsPlag': True, 'PlagConfidence': 100},
         }
 
     def test_constructor(self):
@@ -49,17 +47,41 @@ class TestPlagiarism(TestCase):
         self.plagiarism = Plagiarism
         plagiarism_instance = self.plagiarism()
 
-        slugs = ['slug1', 'slug2']
-        sentimental = False
-        archive = False
-
         # Run the plagiarism check
         plag_results = plagiarism_instance.run_plagiarism_check(
-            slugs=slugs, sentimental=sentimental, archive=archive, results=self.results
+            slugs=['slug1', 'slug2'],
+            sentimental=True,
+            archive=True,
+            results={
+                'student1': {'IsPlag': False, 'PlagConfidence': 0},
+                'student2': {'IsPlag': False, 'PlagConfidence': 0},
+                'student3': {'IsPlag': False, 'PlagConfidence': 0},
+                'student4': {'IsPlag': False, 'PlagConfidence': 0}
+            }
         )
         self.assertEqual(
             plagiarism_instance.results_path,
-            [os.path.dirname(__file__) + '/plagiarism_results/slug1']
+            [os.path.dirname(__file__) + '/plagiarism_results/sentimental/slug1']
         )
         self.assertEqual(plagiarism_instance.plagiarising_students, {'student2', 'student1'})
         self.assertEqual(plag_results, self.ctrl_results)
+
+        plag_results = plagiarism_instance.run_plagiarism_check(
+            slugs=['slug1'],
+            sentimental=False,
+            archive=True,
+            results={
+                'student1': {'IsPlag': False, 'PlagConfidence': 0},
+                'student2': {'IsPlag': False, 'PlagConfidence': 0},
+            }
+        )
+        self.assertEqual(
+            plagiarism_instance.results_path,
+            ['/Users/Julius/PycharmProjects/IntroCSGrading/tests/'
+             'plagiarism_results/sentimental/slug1',
+             '/Users/Julius/PycharmProjects/IntroCSGrading/tests/plagiarism_results/slug1']
+        )
+        self.assertEqual(plagiarism_instance.plagiarising_students, {'student2', 'student1'})
+        self.assertEqual(plag_results, self.ctrl_results2)
+
+        #print(plagiarism_instance.results_path)
