@@ -1,3 +1,7 @@
+"""
+Unit tests for the psgrade module.
+"""
+
 import unittest
 from unittest.mock import patch, MagicMock
 from psgrade.psgrade import main
@@ -5,7 +9,6 @@ from psgrade.psgrade import main
 
 class TestPsGrade(unittest.TestCase):
     """
-    Unit tests for the psgrade module.
     The tests check, that all functions which are called in psgarde, are called once
     and with the correct arguments.
     """
@@ -42,8 +45,8 @@ class TestPsGrade(unittest.TestCase):
         Test that set_commandline_args method is called with the correct arguments.
         """
         main()
-        self.mock_controller.return_value.set_commandline_args.assert_called_once_with(self.mock_args)
-
+        self.mock_controller.return_value.set_commandline_args \
+            .assert_called_once_with(self.mock_args)
     def test_call_results_generator_methods(self):
         """
         Test that the methods of the ResultsGenerator class are called.
@@ -57,7 +60,7 @@ class TestPsGrade(unittest.TestCase):
         Test the behavior when plagiarism_check is set to True.
         """
         self.mock_controller.return_value.plagiarism_check = True
-        self.mock_controller.return_value.distribution_url = ['http://example.com']
+        self.mock_controller.return_value.distribution_url = ['https://example.com']
 
         main()
 
@@ -82,6 +85,7 @@ class TestPsGrade(unittest.TestCase):
         """
         main()
         self.mock_controller.return_value.write_grade_table.assert_called_once()
+
 
 if __name__ == '__main__':
     unittest.main()
